@@ -160,7 +160,7 @@ namespace BrunoMikoski.Pathfinder
                     runningQueriesJobHandle.RemoveAtSwapBack(i);
                     runningJobs.RemoveAtSwapBack(i);
                     runningQueries.RemoveAtSwapBack(i);
-                    gridNodesPool.Enqueue(pathQueryJob.Grid);
+                    gridNodesPool.Enqueue(pathQueryJob.Grid.ToArray());
                     queryIDs.Add(pathQueryJob.QueryID);
                     
                     queryData.Callback?.Invoke(pathResult);
@@ -257,7 +257,7 @@ namespace BrunoMikoski.Pathfinder
                 return;
 
             PathQueryData query = pathQueryQueue.Dequeue();
-            NativeArray<PathNode> grid = gridNodesPool.Dequeue();
+            NativeArray<PathNode> grid = new NativeArray<PathNode>(gridNodesPool.Dequeue(), Allocator.Temp);
             int queryID = queryIDs[0];
             queryIDs.RemoveAtSwapBack(0);
 
